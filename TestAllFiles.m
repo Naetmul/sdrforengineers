@@ -2,7 +2,7 @@ classdef TestAllFiles < matlab.unittest.TestCase
     % To run:
     %  result = runtests('TestAllFiles')
     properties(TestParameter)
-        file = getListOfFiles;
+        file = getListOfFiles();
     end
     
     properties
@@ -14,7 +14,8 @@ classdef TestAllFiles < matlab.unittest.TestCase
             'template_1.m','template_2.m','template_3.m',...
             'cyclic.m','chanEQLMSDD.m','interpControl.m',...
             'interpFilter.m','loopFilter.m','transmitrepeat.m',...
-            'transmitzeros.m','zcTED.m'}
+            'transmitzeros.m','zcTED.m', ...
+            'getOFDMPreambleAndPilot.m'}
     end
     
     methods(Test)
@@ -28,7 +29,7 @@ classdef TestAllFiles < matlab.unittest.TestCase
     end
 end
 
-function files = getListOfFiles
-list    = dir(fullfile('matlab', '*.m'));
-files = {list.name};
+function files = getListOfFiles()
+    list  = dir(fullfile('matlab', '*.m'));
+    files = {list.name};
 end
