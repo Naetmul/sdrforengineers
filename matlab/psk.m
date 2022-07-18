@@ -63,6 +63,7 @@ function out = do_fft(in)
     in_HannWnd = in' .* hanning(L ,'periodic');
     out = 20*(log10(abs(fftshift(fft(in_HannWnd,L))/(L/2))));
 end
+
 function out = do_fs(in)
    out = ((0:1:(length(in)-1))/(0.5*length(in))-1)/2;
 end
@@ -75,6 +76,7 @@ function time_plot(x1, x2, txtsize, ltxtsize, pwidth, pheight, pxoffset, ...
     xlim([x1 x2]);
     title(titlestr);
 end
+
 function fft_plot(data, points, txtsize, ltxtsize, pwidth, pheight, pxoffset, ...
     pyoffset, markersize, titlestr, units)
     persistent file;

@@ -18,7 +18,7 @@ phErrs = zeros(numSamples,2);
 index = 1;
 for NormalizedLoopBandwidth = NormalizedLoopBandwidths
     DampingFactor = 1.3;
-%for DampingFactor = DampingFactors
+    % for DampingFactor = DampingFactors
     %% Calculate range estimates
     NormalizedPullInRange = min(1, 2*pi*sqrt(2)*DampingFactor*...
         NormalizedLoopBandwidth);

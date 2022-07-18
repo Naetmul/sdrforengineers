@@ -29,7 +29,7 @@ sig_bin = []; % Binary waveform
 sig_ask = []; % Amplitude modulated
 sig_psk = []; % Phase modulated
 sig_fsk = []; % Frequency modulated
-for ind = 1:1:bin_data_len,
+for ind = 1:1:bin_data_len
     if (bin_data(ind)==1)
         sig_bin = [sig_bin ones(1,sampl_per_bin)];
         sig_ask = [sig_ask sig_carrier_base];
@@ -40,8 +40,8 @@ for ind = 1:1:bin_data_len,
         sig_ask = [sig_ask 0.5*sig_carrier_base];
         sig_psk = [sig_psk sig_carrier_phase];
         sig_fsk = [sig_fsk sig_carrier_freq];
-    end;
-end;
+    end
+end
 
 % Display all three representations
 figure(figNum); figNum = figNum+1;
@@ -74,26 +74,26 @@ bin2 = round(0.5*rand(1,len)+0.45); %90/10 binary
 % Encode strings of ones in terms of the length of these strings
 enc_bin1 = [];
 enc_bin2 = [];
-for ind = 1:1:len,
+for ind = 1:1:len
     if (bin1(ind) == 1)  % Encoding 50/50
         if (ind == 1)
             enc_bin1 = 1;
         else
             enc_bin1(end) = enc_bin1(end)+1;
-        end;
+        end
     else
         enc_bin1 = [enc_bin1 0];
-    end;
+    end
     if (bin2(ind) == 1)  % Encoding 90/10
         if (ind == 1)
             enc_bin2 = 1;
         else
             enc_bin2(end) = enc_bin2(end)+1;
-        end;
+        end
     else
         enc_bin2 = [enc_bin2 0];
-    end;
-end;
+    end
+end
 
 % Find size of encoded binary streams
 % (assume all one string length values possess the same number of bits)
@@ -131,17 +131,17 @@ bin_str = round(rand(1,len));
 chcode1_bin_str = zeros(1,N1*len);
 chcode2_bin_str = zeros(1,N2*len);
 chcode3_bin_str = zeros(1,N3*len);
-for ind = 1:1:max([N1 N2 N3]),
+for ind = 1:1:max([N1 N2 N3])
     if (ind<=N1)
         chcode1_bin_str(ind:N1:(N1*(len-1)+ind))=bin_str;
-    end;
+    end
     if (ind<=N2)
         chcode2_bin_str(ind:N2:(N2*(len-1)+ind))=bin_str;
-    end;
+    end
     if (ind<=N3)
         chcode3_bin_str(ind:N3:(N3*(len-1)+ind))=bin_str;
-    end;
-end;
+    end
+end
 
 % Corrupt both binary strings with zero-mean unit variance Gaussian noise
 % followed by rounding (creates "bit flipping" errors)
@@ -212,11 +212,11 @@ wavefm_qpsk = zeros(1,len); % QPSK
 symb_4pam = [-3 -1 3 1];
 symb_4qam = [-1+i 1+i -1-i 1-i];
 symb_qpsk = [exp(i*(pi/5+pi/2)) exp(i*(pi/5+pi)) exp(i*(pi/5+0)) exp(i*(pi/5+3*pi/2)) ];
-for ind = 1:1:4,
+for ind = 1:1:4
     wavefm_4pam(find(ind_wavefm == (ind-1))) = symb_4pam(ind);
     wavefm_4qam(find(ind_wavefm == (ind-1))) = symb_4qam(ind);
     wavefm_qpsk(find(ind_wavefm == (ind-1))) = symb_qpsk(ind);
-end;
+end
 
 % Add complex zero-mean white Gaussian noise
 noise_signal = (1/sqrt(2))*sqrt(nvar)*randn(1,len) + i*(1/sqrt(2))*sqrt(nvar)*randn(1,len);
@@ -245,11 +245,11 @@ xlabel('Inphase');ylabel('Quadrature');
 eucl_dist_4pam = zeros(4,len);
 eucl_dist_4qam = zeros(4,len);
 eucl_dist_qpsk = zeros(4,len);
-for ind = 1:1:4,
+for ind = 1:1:4
     eucl_dist_4pam(ind,1:1:len) = abs(symb_4pam(ind).*ones(1,len) - rx_wavefm_4pam);
     eucl_dist_4qam(ind,1:1:len) = abs(symb_4qam(ind).*ones(1,len) - rx_wavefm_4qam);
     eucl_dist_qpsk(ind,1:1:len) = abs(symb_qpsk(ind).*ones(1,len) - rx_wavefm_qpsk);
-end;
+end
 
 % Select shortest Euclidean distances
 [mdist_4pam,min_ind_4pam] = min(eucl_dist_4pam);
@@ -288,8 +288,8 @@ N_tx = 100; % Number of transmissions per SNR
 nvar = [(10.^((1:1:N_snr)/10)).^(-1)]; % Noise variance values
 
 ber_data = zeros(N_snr,N_tx);
-for ind = 1:1:N_snr, % Different SNR values
-    for ind1 = 1:1:N_tx, % Different transmissions for same SNR value
+for ind = 1:1:N_snr  % Different SNR values
+    for ind1 = 1:1:N_tx  % Different transmissions for same SNR value
 
         % Generate BPSK waveform (we will keep this the same for each
         % SNR value for now)
@@ -307,8 +307,8 @@ for ind = 1:1:N_snr, % Different SNR values
 
         % Determine and store bit error rate
         ber_data(ind,ind1) = sum(abs(decode_bin_str - (tx_sig+1)/2))/len;
-    end;
-end;
+    end
+end
 
 % Calculate mean bit error rate and its standard deviation
 mean_ber = mean(ber_data,2).';
@@ -339,10 +339,10 @@ chI = 2*round(rand(1,N_symb))-1;
 chQ = 2*round(rand(1,N_symb))-1;
 samp_I = [];
 samp_Q = [];
-for ind = 1:1:N_symb,
+for ind = 1:1:N_symb
     samp_I = [samp_I chI(ind)*ones(1,N_samp)];
     samp_Q = [samp_Q chQ(ind)*ones(1,N_samp)];
-end;
+end
 
 % Apply cosine and sine carriers to inphase and quadrature components, sum
 % waveforms together into composite transmission
@@ -423,7 +423,7 @@ N_symb = 10; % Number of symbols contained within intercepted signal
 % Randomly generate intercepted waveform consisting of s1(n), s2(n), s3(n), and s4(n)
 rx_sig = [];
 orig_msg = [];
-for ind = 1:1:N_symb,
+for ind = 1:1:N_symb
     rnd_val = rand(1,1);
     if (rnd_val < 0.25) % Add s1(n) waveform
         rx_sig = [rx_sig sig_s1];
@@ -437,18 +437,18 @@ for ind = 1:1:N_symb,
     else % Add s4(n) waveform
         rx_sig = [rx_sig sig_s4];
         orig_msg = [orig_msg 4];
-    end;
-end;
+    end
+end
 
 % Vectorize the intercepted signal
 dim1_comp = [];
 dim2_comp = [];
 dim4_comp = [];
-for ind = 1:1:N_symb,
+for ind = 1:1:N_symb
     dim1_comp = [dim1_comp sum(rx_sig(((ind-1)*3*N_samp+1):1:(ind*3*N_samp)).*phi1)];
     dim2_comp = [dim2_comp sum(rx_sig(((ind-1)*3*N_samp+1):1:(ind*3*N_samp)).*phi2)];
     dim4_comp = [dim4_comp sum(rx_sig(((ind-1)*3*N_samp+1):1:(ind*3*N_samp)).*phi4)];
-end;
+end
 dim1_comp = dim1_comp/N_samp;
 dim2_comp = dim2_comp/N_samp;
 dim4_comp = dim4_comp/N_samp;
@@ -460,7 +460,7 @@ s2vec = [0 0 0 sqrt(2)];
 s3vec = [(sqrt(3)) 0 0 0];
 s4vec = [(-1/sqrt(3)) (-4/sqrt(6)) 0 0];
 est_msg = [];
-for ind = 1:1:N_symb,
+for ind = 1:1:N_symb
     [val,symb_ind] = min([ ...
         sum((s1vec - [dim1_comp(ind) dim2_comp(ind) 0 dim4_comp(ind)]).^2) ...
         sum((s2vec - [dim1_comp(ind) dim2_comp(ind) 0 dim4_comp(ind)]).^2) ...
@@ -468,7 +468,7 @@ for ind = 1:1:N_symb,
         sum((s4vec - [dim1_comp(ind) dim2_comp(ind) 0 dim4_comp(ind)]).^2) ...
         ]);
     est_msg = [est_msg symb_ind];
-end;
+end
 
 % Plot original message and recovered message after intercepted signal was
 % vectorized and correlated with available message vectors

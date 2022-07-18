@@ -32,7 +32,7 @@ eqDelay = K-delta;
 %% Check
 BERs = [];
 for i=1:4
-BERs(i) = mean(x(i:i+trainingSamples-K) ~= x_bar);
+    BERs(i) = mean(x(i:i+trainingSamples-K) ~= x_bar);
 end
 [v,i] = min(BERs)
 

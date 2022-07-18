@@ -16,5 +16,5 @@ ts = dsp.TimeScope('SampleRate', rx.BasebandSampleRate,...
                    'BufferLength', rx.SamplesPerFrame*steps);
 % Receive and view sine
 for k=1:steps
-  ts(rx());
+    ts(rx());
 end

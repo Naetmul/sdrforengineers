@@ -23,8 +23,8 @@ tx.transmitRepeat(filteredData);
 %% Capture and sync data
 ss = comm.SymbolSynchronizer('TimingErrorDetector','Gardner (non-data-aided)');
 for n=1:5
-a = RxFlt(rx());
-b = ss(a);
+    a = RxFlt(rx());
+    b = ss(a);
 end
 a = a(end-1024:end);
 b = b(end-1024:end);
